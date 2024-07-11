@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
-import WhiteTextField from '../components/white-textfield';
-import DefaultButton from '../components/button/default-button';
+import WhiteTextField from 'src/components/white-textfield';
+import DefaultButton from 'src/components/button/default-button';
 
 const ResetPassword = () => {
   const { token } = useParams();
