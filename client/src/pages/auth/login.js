@@ -50,7 +50,7 @@ const Signin = () => {
         const { data } = response;
         if (data.redirectUrl) {
           login(); 
-          navigate("/agency"); // Navigate to the specified redirectUrl
+          navigate(data.redirectUrl); // Navigate to the specified redirectUrl
         } else {
           login(); // Update the login state in context
           navigate("/"); // Redirect to the default dashboard or home page
@@ -73,7 +73,7 @@ const Signin = () => {
       <div className='w-full'>
         <form onSubmit={handleSubmit}>
           <div className='w-full flex flex-col gap-[24px]'>
-            <WhiteTextField
+            <WhiteTextField className='white-input'
               label="Email"
               name="email"
               type="email"
@@ -81,7 +81,7 @@ const Signin = () => {
               onChange={handleChange}
             />
             <FormControl variant="outlined">
-              <WhiteTextField
+              <WhiteTextField className='white-input'
                 id="outlined-adornment-password"
                 type={showPassword ? 'text' : 'password'}
                 name="password"

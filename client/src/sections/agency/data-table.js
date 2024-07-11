@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 
 const columns = [
-  { field: '_id', headerName: 'ID', flex: 0.3 },
+  { field: 'no', headerName: 'No', flex: 0.2 },
   { field: 'patient_name', headerName: 'Patient Name', flex: 1 },
   { field: 'patient_address', headerName: 'Patient Address', flex: 1 },
-  { field: 'createdAt', headerName: 'Submission Date', flex: 1 },
+  { 
+    field: 'createdAt', 
+    headerName: 'Submission Date', 
+    flex: 1,
+    renderCell: (params) => {
+      const date = new Date(params.row.createdAt); // Assuming createdAt is a date string
+      const formattedDate = date.toISOString().split('T')[0]; // Extract the date portion
+      return formattedDate;
+    },
+  },
   { 
     field: 'action', 
     headerName: 'Action', 
@@ -27,7 +37,8 @@ const DataTable = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3003/api/users/submission-list');
-        setRows(response.data);
+        const dataWithIndex = response.data.map((row, index) => ({ ...row, no: index + 1 }));
+        setRows(dataWithIndex);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -35,19 +46,18 @@ const DataTable = () => {
 
     fetchData();
   }, []);
-  
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 631, width: '100%' }}>
       <DataGrid
         rows={rows}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5, 10, 20]}
-        // checkboxSelection
+        pageSize={10}
+        checkboxSelection
+        disableRowSelectionOnClick
         getRowId={(row) => row._id} // Specify how to get the ID from each row
       />
-    </div>
+    </Box>
   );
 };
 

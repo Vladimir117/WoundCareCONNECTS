@@ -12,8 +12,6 @@ import { agencyNavLinks } from 'src/constants';
 // Icons
 // import HamburgerIcon from 'src/assets/svgs/HamburgerIcon';
 import MenuIcon from '@mui/icons-material/Menu';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import CircleIcon from '@mui/icons-material/Circle';
 
 // @mui
 import {
@@ -22,11 +20,6 @@ import {
   Tabs, Tab, useMediaQuery, useTheme, Fade, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Chip, ListItemText, ListItemButton,
 } from '@mui/material';
 
-// Hooks
-import { useResponsive } from 'src/hooks/use-responsive';
-
-// Components
-import NavList from './nav/desktop/nav-list';
 
 const Header = () => {
   const theme = useTheme();
@@ -53,17 +46,6 @@ const Header = () => {
       return;
     }
     setDrawerOpen(open);
-  };
-
-  // Notification Popper Menu
-  const [openNotificationMenu, setOpenNotificationMenu] = useState(null);
-
-  const handleNotificationMenuOpen = (event) => {
-      setOpenNotificationMenu(event.currentTarget);
-  };
-
-  const handleNotificationMenuClose = () => {
-      setOpenNotificationMenu(null);
   };
 
   const drawerList = () => (
@@ -128,23 +110,7 @@ const Header = () => {
                   </Link>
                 </Box>
               </Grid>
-              {/* <Grid item md={4} sx={{ display: { xs: "none", md: "block" } }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "start",
-                    gap: {
-                      xs: "1rem",
-                      lg: "40px",
-                    },
-                  }}
-                >
-                  {agencyNavLinks.map((link) => (
-                    <NavList key={link.title} item={link} />
-                  ))}
-                </Box>
-              </Grid> */}
+            
               <Grid item md={4} sx={{ display: { xs: "none", md: "block" } }}>
                 <Box
                   sx={{

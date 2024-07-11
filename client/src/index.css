@@ -211,18 +211,6 @@
   padding: 10px 20px;
 }
 
-/* Global */
-input:-webkit-autofill {
-  -webkit-text-fill-color: #ffffff; /* Change text color to #ffffff */
-  background-color: transparent !important; /* Set transparent background */
-  transition: background-color 5000s ease-in-out 0s; /* Adjust transition timing */
-}
-
-/* Handle cursor color */
-input:-webkit-autofill:focus {
-  caret-color: white !important; /* Change caret color to white */
-}
-
 /* Signin */
 #signin {
   background-image: url('assets/images/bg-auth.png');

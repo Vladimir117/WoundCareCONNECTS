@@ -96,17 +96,6 @@ export default function FileUpload({
             Remove All
           </Button>
         )}
-
-        {onUpload && (
-          <Button
-            size="small"
-            variant="contained"
-            onClick={onUpload}
-            startIcon={<Iconify icon="eva:cloud-upload-fill" />}
-          >
-            Upload
-          </Button>
-        )}
       </Stack>
     </>
   );

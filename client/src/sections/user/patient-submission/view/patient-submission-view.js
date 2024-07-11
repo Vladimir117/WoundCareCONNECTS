@@ -1,14 +1,18 @@
 import styles from 'src/style'
 import Main from '../main';
 
+import { SnackbarProvider, useSnackbar } from 'notistack';
+
 const PatientSubmissionView = () => {
   return (
     <>
-      <div className={`${styles.paddingX} ${styles.flexStart} font-manrope`}>
-        <div className={`${styles.boxWidth} py-[48px] sm:py-[70px]`}>
-          <Main />
+      <SnackbarProvider maxSnack={3}>
+        <div className={`${styles.paddingX} ${styles.flexStart} font-manrope`}>
+          <div className={`${styles.boxWidth} py-[48px] sm:py-[70px]`}>
+            <Main />
+          </div>
         </div>
-      </div>
+      </SnackbarProvider>
     </>
   );
 };

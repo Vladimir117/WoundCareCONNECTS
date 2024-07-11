@@ -40,7 +40,7 @@ exports.register = async (req, res) => {
   }
 };
 
-const AGENCY_DASHBOARD_URL = process.env.AGENCY_URL || 'http://localhost:5033/agency';
+const AGENCY_DASHBOARD_URL = process.env.AGENCY_URL || '/agency';
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
