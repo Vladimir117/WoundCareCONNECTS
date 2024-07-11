@@ -17,7 +17,6 @@ import planGoalImg from "./images/plan-goal.jpg";
 import faqImg from "./images/faq.jpg";
 import bgAuth from './images/bg-auth.png'
 
-
 import logo from "./logo/logo.svg";
 import logoWhite from "./logo/logo-white.svg";
 import quotes from "./images/quotes.svg";
