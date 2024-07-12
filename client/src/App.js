@@ -6,11 +6,12 @@ import { AuthProvider } from 'src/auth/auth-provider';
 // Routes
 import Router from 'src/routes/sections';
 
+// components
+import ScrollToTop from 'src/components/scroll-to-top';
+
 // theme
 // import ThemeProvider from 'src/theme';
 
-// components
-import ScrollToTop from 'src/components/scroll-to-top';
 
 export default function App() {
   return (
