@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { base_url } from 'src/constants'
 import { Link, useNavigate, } from 'react-router-dom';
 import { AuthContext } from 'src/auth/auth-provider';
-
 
 // @mui
 import {
@@ -45,7 +45,7 @@ const Signin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3003/api/users/login", formData)
+      .post(base_url + "/api/users/login", formData)
       .then((response) => {
         const { data } = response;
         if (data.redirectUrl) {

@@ -15,6 +15,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import PhoneNumberMaskInput from 'src/components/phonenumber-mask-input';
 import FileUpload from 'src/components/file-upload';
 import DefaultButton from 'src/components/button/default-button';
+import { base_url } from 'src/constants';
 
 const Main = () => {
     const { isLoggedIn } = useContext(AuthContext);
@@ -106,7 +107,7 @@ const Main = () => {
             formDataToSend.append('attachments', file);
         });
 
-        axios.post("http://localhost:3003/api/users/submission", formDataToSend, {
+        axios.post(base_url + "/api/users/submission", formDataToSend, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }

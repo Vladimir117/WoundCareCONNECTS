@@ -4,11 +4,11 @@ import axios from 'axios';
 import { TextField, Grid, Typography, FormControl, IconButton, CircularProgress } from '@mui/material';
 
 // Components
-import DefaultButton from 'src/components/button/default-button';
 import FileThumbnail from 'src/components/file-thumbnail/file-thumbnail';
 
 // Icons
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { base_url } from 'src/constants';
 
 const PatientDetails = () => {
     const { id } = useParams(); // Get the id from the URL
@@ -44,7 +44,7 @@ const PatientDetails = () => {
     useEffect(() => {
         const fetchPatientDetails = async () => {
             try {
-                const response = await axios.get(`http://localhost:3003/api/users/submission-detail/${id}`);
+                const response = await axios.get(`${base_url}/api/users/submission-detail/${id}`);
                 setFormValues(response.data);
                 if (response.data.attachments) {
                     setAttachments(response.data.attachments);
@@ -186,7 +186,7 @@ const PatientDetails = () => {
                                 {attachments.length > 0 ? (
                                     attachments.map((attachment, index) => (
                                         <div key={attachment._id} variant="outlined" className="flex">
-                                            <Link to={`http://localhost:3003/${attachment.path}`} target='_blank' download={attachment.filename}>
+                                            <Link to={`${base_url}/${attachment.path}`} target='_blank' download={attachment.filename}>
                                                 <FileThumbnail
                                                     tooltip
                                                     file={attachment.filename}

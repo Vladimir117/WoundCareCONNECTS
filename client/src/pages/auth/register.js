@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
+import { base_url } from 'src/constants';
 import axios from 'axios';
 import {
   FormControl,
@@ -114,7 +116,7 @@ const Signup = () => {
     e.preventDefault();
     if (validateForm()) {
       axios
-        .post('http://localhost:3003/api/users/register', formData)
+        .post(base_url + '/api/users/register', formData)
         .then((result) => {
           console.log(result);
           navigate('/login');

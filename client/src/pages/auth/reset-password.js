@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Button } from '@mui/material';
 import WhiteTextField from 'src/components/white-textfield';
 import DefaultButton from 'src/components/button/default-button';
+import { base_url } from 'src/constants';
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -19,7 +20,7 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://localhost:3003/reset-password/${token}`, { password });
+      const response = await axios.post(`${base_url}/reset-password/${token}`, { password });
       setMessage(response.data);
       setError('');
       setTimeout(() => navigate('/login'), 3000);

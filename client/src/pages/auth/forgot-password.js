@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { base_url } from 'src/constants';
 import { Link } from 'react-router-dom';
 import { FormControl, Typography, Button, IconButton, InputAdornment } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -18,7 +19,7 @@ const ForgotPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3003/forgot-password', { email });
+      const response = await axios.post(base_url + '/forgot-password', { email });
       setMessage(response.data);
       setError('');
     } catch (error) {

@@ -4,6 +4,8 @@ import {
   linkedin,
 } from "src/assets";
 
+export const base_url = "http://woundcareconnects.com";
+
 // Navbar
 export const navLinks = [
   {

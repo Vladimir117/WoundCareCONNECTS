@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
+import { base_url } from 'src/constants';
 
 const columns = [
   { field: 'no', headerName: 'No', flex: 0.2 },
@@ -36,7 +37,7 @@ const DataTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3003/api/users/submission-list');
+        const response = await axios.get(base_url + '/api/users/submission-list');
         const dataWithIndex = response.data.map((row, index) => ({ ...row, no: index + 1 }));
         setRows(dataWithIndex);
       } catch (error) {
