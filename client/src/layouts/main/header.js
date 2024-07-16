@@ -16,8 +16,6 @@ const Header = () => {
   const [toggle, setToggle] = useState(false);
   const { isLoggedIn, logout } = useContext(AuthContext);
 
-  console.log(isLoggedIn);
-
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
@@ -38,14 +36,12 @@ const Header = () => {
     return navId === cleanPath ? 'nav-active' : '';
   };
 
-  const [open, setOpen] = useState(false);
-
   const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
+    setToggle(newOpen);
   };
 
   const handleLogout = () => {
-    logout(); // No parameter needed
+    logout();
   };
 
   const DrawerList = (
@@ -116,7 +112,7 @@ const Header = () => {
                 className='w-[28px] h-[28px] object-contain wc-toggle-menu'
                 onClick={toggleDrawer(true)}
               />
-              <Drawer open={open} onClose={toggleDrawer(false)}>
+              <Drawer open={toggle} onClose={toggleDrawer(false)}>
                 {DrawerList}
               </Drawer>
             </div>

@@ -67,10 +67,9 @@ const Footer = () => {
           <div className='w-full flex justify-between items-center md:flex-row flex-col py-6 border-t-[1px] border-t-[#B6E6FF]'>
             <div className='flex flex-row md:mt-0 sm:mt-6'>
               {socialMedia.map((social, index) => (
-                <Link to={social.path} target='blank'>
+                <Link to={social.path} key={index} target='blank'>
                   <img
                     src={social.icon}
-                    key={social.id}
                     alt={social.id}
                     className={`w-[32px] h-[32px] object-contain cursor-pointer ${index !== socialMedia.length - 1 ? 'mr-6' : 'mr-0'}`}
                   />

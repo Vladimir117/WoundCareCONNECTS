@@ -3,11 +3,10 @@ import React, { createContext, useState, useEffect } from 'react';
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(() => !!localStorage.getItem('authToken'));
-  const [token, setToken] = useState(() => localStorage.getItem('authToken'));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    // Sync token with localStorage on initialization and changes
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
       setToken(storedToken);

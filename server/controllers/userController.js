@@ -3,21 +3,18 @@ const sanitizeHtml = require('sanitize-html');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
+const crypto = require('crypto');
+const postmark = require('postmark');
 
 // Models
 const WoundcareModel = require('../models/Woundcare');
 const SubmissionModel = require('../models/Submission');
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  },
-  debug: true,
-});
+// Utils
+const sendPasswordResetEmail = require('../utils/email');
+
+// Constants
+const AGENCY_DASHBOARD_URL = process.env.AGENCY_URL || '/agency';
 
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -39,8 +36,6 @@ exports.register = async (req, res) => {
     return res.status(500).json({ error: "Failed to register user" });
   }
 };
-
-const AGENCY_DASHBOARD_URL = process.env.AGENCY_URL || '/agency';
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
@@ -73,55 +68,59 @@ exports.login = async (req, res) => {
   }
 };
 
-
-
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
+
+  console.log(email);
   try {
-    const sanitizedEmail = sanitizeHtml(email);
-    const user = await WoundcareModel.findOne({ email: sanitizedEmail });
+    const user = await WoundcareModel.findOne({ email });
+
     if (!user) {
-      return res.status(400).json({ error: "User with given email does not exist." });
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    const token = jwt.sign({ email: sanitizedEmail }, process.env.SECRET_KEY, { expiresIn: '1h' });
-    const url = `http://localhost:5173/reset-password/${token}`;
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
 
-    await transporter.sendMail({
-      to: sanitizedEmail,
-      subject: 'Reset Password',
-      html: `Click <a href="${url}">here</a> to reset your password.`,
-    });
+    // Save token to the user document
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // 1 hour from now
+    await user.save();
 
-    return res.json({ message: "Password reset link sent to your email account" });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Internal server error" });
+    // Send password reset email
+    await sendPasswordResetEmail(email, resetLink);
+
+    res.json({ message: 'Password reset email sent' });
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
 exports.resetPassword = async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
-  try {
-    const payload = jwt.verify(token, process.env.SECRET_KEY);
-    const sanitizedPassword = sanitizeHtml(password);
-    const hashedPassword = await bcrypt.hash(sanitizedPassword, 10);
+  const { token, password } = req.body;
 
-    const user = await WoundcareModel.findOneAndUpdate(
-      { email: payload.email },
-      { password: hashedPassword },
-      { new: true }
-    );
+  try {
+    const user = await WoundcareModel.findOne({
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }
+    });
 
     if (!user) {
-      return res.status(400).json({ error: "Invalid token or user does not exist." });
+      return res.status(400).json({ message: 'Invalid or expired token' });
     }
 
-    return res.json({ message: "Password successfully reset" });
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Internal server error" });
+    // Reset password
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+    await user.save();
+
+    res.json({ message: 'Password has been reset' });
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
