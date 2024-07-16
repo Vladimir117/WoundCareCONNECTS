@@ -17,11 +17,13 @@ const Footer = () => {
         <section className={`${styles.flexCenter} flex-col pt-5 ss:pt-16`}>
           <div className={`flex justify-between flex-col ss:flex-row mb-8 w-full gap-[24px]`}>
             <div className='flex flex-col justify-start gap-[20px]'>
-              <img
-                src={logo}
-                alt='logo'
-                className='w-[266px] object-contain'
-              />
+              <Link to="/">
+                <img
+                  src={logo}
+                  alt='logo'
+                  className='w-[266px] object-contain'
+                />
+              </Link>
               <p className={`font-manrope text-[16px] mt-4 max-w-[310px] text-gray-600`}>
                 Experience personalized medical care from the comfort of your home.    
               </p>
@@ -31,13 +33,13 @@ const Footer = () => {
                 <h4 className='font-manrope font-medium text-[18px] leading-[27px] text-primary'>Support</h4>
                 <ul className='list-none mt-4 flex flex-col gap-[12px]'>
                   <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
-                    <Link to='/signin'>Getting Started</Link>
+                    <Link to='/login'>Getting Started</Link>
                   </li>
                   <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
                     <Link to='/faqs'>FAQs</Link>
                   </li>
                   <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
-                    <Link to='/contact-us'>Report an issue</Link>
+                    <Link to='/contact'>Report an issue</Link>
                   </li>
                 </ul>
               </div>
@@ -48,7 +50,7 @@ const Footer = () => {
                     <Link to="tel:8478754000"><PhoneIcon className='text-[14px] mr-2' />+1 (847) 875-4000</Link>
                   </li>
                   <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
-                    <Link to='mailto:'><EmailIcon className='text-[14px] mr-2' />info@woundcareconnects.com</Link>
+                    <Link to='mailto:info@woundcareconnects.com'><EmailIcon className='text-[14px] mr-2' />info@woundcareconnects.com</Link>
                   </li>
                 </ul>
               </div>
@@ -56,40 +58,25 @@ const Footer = () => {
                 <h4 className='font-manrope font-medium text-[18px] leading-[27px] text-primary'>Services</h4>
                 <ul className='list-none mt-4 flex flex-col gap-[12px]'>
                   <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
-                    <Link to='/signup'>Booking appointments</Link>
+                    <Link to='/register'>Booking appointments</Link>
                   </li>
                 </ul>
               </div>
-              {/* {footerLinks.map((link) => (
-                <div key={link.title} className='flex flex-col ss:my-0 my-4 min-w-[150px]'>
-                  <h4 className='font-manrope font-medium text-[18px] leading-[27px] text-primary'>
-                    {link.title}
-                  </h4>
-                  <ul className='list-none mt-4'>
-                    {link.links.map((item, index) => (
-                      <li 
-                        key={item.name} 
-                        className={`font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer ${index !== link.links.length - 1 ? 'mb-4' : 'mb-0'}`}
-                      >
-                        <Link to={item.path}>{item.name}</Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))} */}
             </div>
           </div>
           <div className='w-full flex justify-between items-center md:flex-row flex-col py-6 border-t-[1px] border-t-[#B6E6FF]'>
             <div className='flex flex-row md:mt-0 sm:mt-6'>
               {socialMedia.map((social, index) => (
-                <img
-                  src={social.icon}
-                  key={social.id}
-                  alt={social.id}
-                  className={`w-[32px] h-[32px] object-contain cursor-pointer ${index !== socialMedia.length - 1 ? 'mr-6' : 'mr-0'}`}
-                />
+                <Link to={social.path} target='blank'>
+                  <img
+                    src={social.icon}
+                    key={social.id}
+                    alt={social.id}
+                    className={`w-[32px] h-[32px] object-contain cursor-pointer ${index !== socialMedia.length - 1 ? 'mr-6' : 'mr-0'}`}
+                  />
+                </Link>
               ))}
-            </div> 
+            </div>
             <p className='font-manrope font-normal text-center text-[16px] leading-[27px] text-gray-500 mt-5 ss:mt-0'>
               WoundCare CONNECTS 2024 © All Rights Reserved
             </p>    

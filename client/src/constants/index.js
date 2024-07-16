@@ -4,7 +4,7 @@ import {
   linkedin,
 } from "src/assets";
 
-export const base_url = "http://woundcareconnects.com";
+export const base_url = "http://localhost:3003";
 
 // Navbar
 export const navLinks = [
@@ -43,9 +43,13 @@ export const navLinks = [
 ];
 
 export const agencyNavLinks = [
+  // {
+  //   path: "/agency/dashboard",
+  //   title: "Dashboard",
+  // },
   {
-    path: "/agency/dashboard",
-    title: "Dashboard",
+    path: "/logout",
+    title: "Logout",
   },
 ];
 
@@ -455,15 +459,15 @@ export const socialMedia = [
   {
     id: "social-media-1",
     icon: facebook,
-    link: "https://www.facebook.com/",
+    path: "https://www.facebook.com/",
   },
   {
     id: "social-media-2",
     icon: instagram,
-    link: "https://www.instagram.com/",
+    path: "https://www.instagram.com/",
   },  {
     id: "social-media-3",
     icon: linkedin,
-    link: "https://www.linkedin.com/",
+    path: "https://www.linkedin.com/",
   },
 ];

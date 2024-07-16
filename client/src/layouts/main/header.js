@@ -1,22 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { Box, Button, Drawer, List, Divider, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { AuthContext } from 'src/auth/auth-provider';
+
+// Assets and Constants
 import { close, logo, menu } from 'src/assets';
 import { navLinks } from 'src/constants';
-import { paths } from 'src/routes/paths';
 import styles from 'src/style';
-import { Link } from 'react-router-dom';
-
-import { Box, Button } from '@mui/material';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-
-import { AuthContext } from 'src/auth/auth-provider';
 
 // Components
 import DefaultButton from 'src/components/button/default-button';
@@ -26,6 +16,8 @@ const Header = () => {
   const [toggle, setToggle] = useState(false);
   const { isLoggedIn, logout } = useContext(AuthContext);
 
+  console.log(isLoggedIn);
+
   useEffect(() => {
     const handleScroll = () => {
       const position = window.pageYOffset;
@@ -33,7 +25,6 @@ const Header = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -41,24 +32,20 @@ const Header = () => {
 
   const setNavItemActive = (navId) => {
     const cleanPath = location.pathname.slice(1);
-
     if (cleanPath === "" && navId === "/") {
       return 'nav-active';
     }
-
     return navId === cleanPath ? 'nav-active' : '';
-  }
+  };
 
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
   };
 
-  // Function to handle logout
   const handleLogout = () => {
-    // Perform logout operations (clear tokens, update state, etc.)
-    logout(false); // Update login state to false
+    logout(); // No parameter needed
   };
 
   const DrawerList = (
@@ -68,17 +55,28 @@ const Header = () => {
           <ListItem key={link.id} disablePadding>
             <Link to={`/${link.id}`} className='w-full'>
               <ListItemButton>
-                {isLoggedIn && link.id === 'login' ? (
-                  <ListItemText primary='Sign Out'/>
-                ) : (
-                  <ListItemText primary={link.title} />
-                )}
+                <ListItemText primary={link.title} />
               </ListItemButton>
             </Link>
           </ListItem>
         ))}
       </List>
       <Divider />
+      <List>
+        <ListItem disablePadding>
+          {isLoggedIn ? (
+            <ListItemButton onClick={handleLogout}>
+              <ListItemText primary="Sign Out" />
+            </ListItemButton>
+          ) : (
+            <Link to="/login" className='w-full'>
+              <ListItemButton>
+                <ListItemText primary="Sign In" />
+              </ListItemButton>
+            </Link>
+          )}
+        </ListItem>
+      </List>
     </Box>
   );
 
@@ -103,7 +101,6 @@ const Header = () => {
                 </li>
               ))}
             </ul>
-            {/* Conditionally render Sign In or Sign Out button based on login status */}
             {isLoggedIn ? (
               <Button onClick={handleLogout} className='!hidden lg:!block' variant="outlined">Sign Out</Button>
             ) : (
@@ -122,26 +119,12 @@ const Header = () => {
               <Drawer open={open} onClose={toggleDrawer(false)}>
                 {DrawerList}
               </Drawer>
-              <div className={`${toggle ? 'flex' : 'hidden'} p-6 bg-black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar z-[10] nav-box-shadow`}>
-                <ul className='list-none flex flex-col justify-end items-center flex-1'>
-                  {navLinks.map((nav, i) => (
-                    <li
-                      key={nav.id}
-                      className={`font-manrope font-normal cursor-pointer text-[16px] ${i === navLinks.length - 1 ? 'mr-0' : 'mb-4'} text-white sm:mr-10`}
-                    >
-                      <Link to={`/${nav.id}`}>
-                        {nav.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </nav>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
 export default Header;
