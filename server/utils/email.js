@@ -1,7 +1,7 @@
 // utils/email.js
 const postmark = require('postmark');
 
-// Create a new Postmark client with your server API token
+// Create a new postmark client with your server API token
 const client = new postmark.ServerClient(process.env.POSTMARK_SERVER_API_TOKEN);
 
 const sendPasswordResetEmail = (email, resetLink) => {
