@@ -1,12 +1,14 @@
+// src/pages/signin.js
+
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { base_url } from 'src/constants'
-import { Link, useNavigate, } from 'react-router-dom';
+import { base_url } from 'src/constants';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from 'src/auth/auth-provider';
 
 // @mui
 import {
-  FormControl, FormControlLabel, Checkbox, IconButton, InputAdornment, Typography, Button,
+  FormControl, FormControlLabel, Checkbox, IconButton, InputAdornment, Typography,
 } from '@mui/material';
 
 // Components
@@ -21,13 +23,12 @@ const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  const { login } = useContext(AuthContext);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -42,31 +43,24 @@ const Signin = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios
-      .post(base_url + "/api/users/login", formData)
-      .then((response) => {
-        const { data } = response;
-        if (data.redirectUrl) {
-          login(); 
-          navigate(data.redirectUrl); // Navigate to the specified redirectUrl
-        } else {
-          login(); // Update the login state in context
-          navigate("/"); // Redirect to the default dashboard or home page
-        }
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 401) {
-          setError("Invalid email or password. Please try again.");
-        } else {
-          setError("An unexpected error occurred. Please try again later.");
-        }
-      });
+    try {
+      const response = await axios.post(base_url + "/api/users/login", formData);
+      const { data } = response;
+      login(data.token, true); // Assuming your API returns a token upon successful login
+      navigate(data.redirectUrl || "/"); // Navigate to the specified redirectUrl or default route
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        setError("Invalid email or password. Please try again.");
+      } else {
+        setError("An unexpected error occurred. Please try again later.");
+      }
+    }
   };
 
   return (
-    <div className='flex flex-col w-full max-w-[520px] gap-[48px] px-[15px] py-[48px] sm:px-[48px] sm:py-[48px] flex rounded-[18px] shadow-custom backdrop-blur-lg z-10 box-decoration-slice '>
+    <div className='flex flex-col w-full max-w-[520px] gap-[48px] px-[15px] py-[48px] sm:px-[48px] sm:py-[48px] flex rounded-[18px] shadow-custom backdrop-blur-lg z-10 box-decoration-slice'>
       <div className="flex flex-col gap-[24px] justify-center items-center">
         <Typography variant='h4' className='text-white'>Sign In</Typography>
       </div>
