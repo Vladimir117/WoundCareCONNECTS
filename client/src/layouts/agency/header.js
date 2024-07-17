@@ -48,20 +48,20 @@ const Header = () => {
     setDrawerOpen(open);
   };
 
-  const drawerList = () => (
-    <>
-      <Box
-        sx={{ width: 250 }}
-        role="presentation"
-        onClick={toggleDrawer(false)}
-        onKeyDown={toggleDrawer(false)}
-      >
-        {agencyNavLinks.map((item) => (
-          <NavItem key={item.title} item={item} /> // Key on NavItem
-        ))}
-      </Box>
-    </>
-  );
+  // const drawerList = () => (
+  //   <>
+  //     <Box
+  //       sx={{ width: 250 }}
+  //       role="presentation"
+  //       onClick={toggleDrawer(false)}
+  //       onKeyDown={toggleDrawer(false)}
+  //     >
+  //       {agencyNavLinks.map((item) => (
+  //         <NavItem key={item.title} item={item} /> // Key on NavItem
+  //       ))}
+  //     </Box>
+  //   </>
+  // );
 
   const handleLogout = () => {
     handleUserClose();
@@ -149,13 +149,13 @@ const Header = () => {
       </div>
       
       {/* Drawer component */}
-      <Drawer
+      {/* <Drawer
         anchor="left"
         open={drawerOpen && !shouldCloseDrawer} // Controlled Drawer
         onClose={() => setDrawerOpen(false)} 
       >
         {drawerList()}
-      </Drawer>
+      </Drawer> */}
 
       {/* Handle Order Detail Menu */}
       <Popover

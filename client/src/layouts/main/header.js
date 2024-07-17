@@ -85,7 +85,7 @@ const Header = () => {
               <img src={logo} alt='WoundCare CONNECTS' className={`${isScrolled ? 'w-[129px]' : 'w-[215px]'}`} />
             </Link>
             <ul className={`list-none lg:flex hidden justify-center items-center flex-1`}>
-              {navLinks.slice(0, -1).map((nav, i) => (
+              {navLinks.map((nav, i) => (
                 <li
                   key={nav.id}
                   className={`font-manrope font-normal hover:text-primary cursor-pointer text-[16px] ${isScrolled ? 'text-[14px]' : ''} ${i === navLinks.length - 1 ? 'mr-0' : 'mr-10'} mr-10`}

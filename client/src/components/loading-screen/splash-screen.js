@@ -2,7 +2,7 @@ import { logo } from 'src/assets';
 
 // ----------------------------------------------------------------------
 
-export default function SplashScreen({ sx, ...other }) {
+export default function SplashScreen() {
   return (
     <>
       <div className='w-full h-[100vh] flex justify-center items-center'>

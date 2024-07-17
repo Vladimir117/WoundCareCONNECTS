@@ -186,7 +186,7 @@ const PatientDetails = () => {
                                 {attachments.length > 0 ? (
                                     attachments.map((attachment, index) => (
                                         <div key={attachment._id} variant="outlined" className="flex">
-                                            <Link to={`${base_url}/${attachment.path}`} target='_blank' download={attachment.filename}>
+                                            <Link to={`/uploads/${attachment.filename}`} target='_blank'>
                                                 <FileThumbnail
                                                     tooltip
                                                     file={attachment.filename}
