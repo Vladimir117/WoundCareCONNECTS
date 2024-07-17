@@ -13,11 +13,13 @@ const Dashboard = lazy(() => import('src/pages/agency'));
 const PatientDetails = lazy(() => import('src/pages/agency/patient-details'));
 
 const LazyComponent = (Component) => (
-  <Suspense fallback={<SplashScreen />}>
-    <AgencyLayout>
-      <Component />
-    </AgencyLayout>
-  </Suspense>
+  <ProtectedRoute>
+    <Suspense fallback={<SplashScreen />}>
+      <AgencyLayout>
+        <Component />
+      </AgencyLayout>
+    </Suspense>
+  </ProtectedRoute>
 );
 
 export const agencyRoutes = [
@@ -27,19 +29,11 @@ export const agencyRoutes = [
       { element: <Navigate to="/agency/dashboard" />, index: true },
       {
         path: 'dashboard',
-        element: (
-          <ProtectedRoute>
-            {LazyComponent(Dashboard)}
-          </ProtectedRoute>
-        ),
+        element: LazyComponent(Dashboard),
       },
       {
         path: 'patient-details/:id',
-        element: (
-          <ProtectedRoute>
-            {LazyComponent(PatientDetails)}
-          </ProtectedRoute>
-        ),
+        element: LazyComponent(PatientDetails),
       },
     ],
   },
