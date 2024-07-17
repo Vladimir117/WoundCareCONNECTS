@@ -111,7 +111,7 @@ const Header = () => {
                 </Box>
               </Grid>
             
-              <Grid item md={4} sx={{ display: { xs: "none", md: "block" } }}>
+              <Grid item md={4}>
                 <Box
                   sx={{
                     display: "flex",
@@ -133,7 +133,7 @@ const Header = () => {
                   </div>
                 </Box>
               </Grid>
-              <Grid item xs={6} 
+              {/* <Grid item xs={6} 
                 sx={{ 
                   display: { xs: "flex", md: "none" },
                   justifyContent: 'flex-end'
@@ -142,7 +142,7 @@ const Header = () => {
                 <IconButton onClick={toggleDrawer(true)}>
                   <MenuIcon />
                 </IconButton>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Container>
         </div>

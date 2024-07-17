@@ -1,7 +1,7 @@
 import styles from 'src/style'
 import Main from '../main';
 
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { SnackbarProvider } from 'notistack';
 
 const PatientSubmissionView = () => {
   return (

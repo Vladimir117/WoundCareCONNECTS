@@ -12,6 +12,7 @@ const SubmissionModel = require('../models/Submission');
 
 // Utils
 const sendPasswordResetEmail = require('../utils/email');
+const sendContactUsEmail = require('../utils/sendContactUsEmail');
 
 // Constants
 const AGENCY_DASHBOARD_URL = process.env.AGENCY_URL || '/agency';
@@ -71,7 +72,6 @@ exports.login = async (req, res) => {
 exports.forgotPassword = async (req, res) => {
   const { email } = req.body;
 
-  console.log(email);
   try {
     const user = await WoundcareModel.findOne({ email });
 
@@ -200,5 +200,18 @@ exports.submissionDetail = async (req, res) => {
   } catch (err) {
     console.error('Error fetching submission:', err);
     res.status(500).json({ error: 'Failed to fetch submission' });
+  }
+};
+
+// Contact
+exports.contactUs = async (req, res) => {
+  const { name, email, phone, message } = req.body;
+
+  try {
+    await sendContactUsEmail(name, email, phone, message);
+    res.json({ message: 'Message sent successfully' });
+  } catch (error) {
+    console.error('Error sending message:', error);
+    res.status(500).json({ message: 'Failed to send message' });
   }
 };

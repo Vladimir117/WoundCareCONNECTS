@@ -15,4 +15,6 @@ router.post('/submission', userController.submission);
 router.get('/submission-list', userController.submissionList);
 router.get('/submission-detail/:id', userController.submissionDetail);
 
+router.post('/contact', userController.contactUs);
+
 module.exports = router;

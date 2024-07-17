@@ -14,7 +14,6 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // Components
 import PhoneNumberMaskInput from 'src/components/phonenumber-mask-input';
 import FileUpload from 'src/components/file-upload';
-import DefaultButton from 'src/components/button/default-button';
 import { base_url } from 'src/constants';
 
 const Main = () => {

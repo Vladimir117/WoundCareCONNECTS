@@ -1,4 +1,8 @@
+import { Suspense } from 'react'
 import { Navigate, useRoutes } from 'react-router-dom'
+
+// Components
+import { SplashScreen } from 'src/components/loading-screen';
 
 // Layouts
 import MainLayout from 'src/layouts/main';
@@ -15,9 +19,11 @@ export default function Router() {
         {
             path: '/home',
             element: (
-                <MainLayout>
-                    <HomePage />
-                </MainLayout>
+                <Suspense fallback={<SplashScreen />}>
+                    <MainLayout>
+                        <HomePage />
+                    </MainLayout>
+                </Suspense>
             ),
         },
 
