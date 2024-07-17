@@ -138,7 +138,7 @@ exports.resetPassword = async (req, res) => {
 const storage = multer.diskStorage({
 
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../uploads')); // Set the directory where files will be stored
+    cb(null, path.join(__dirname, '../../uploads')); // Set the directory where files will be stored
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname); // Rename file if needed
