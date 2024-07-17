@@ -81,7 +81,7 @@ const Signup = () => {
         password: 'Password is required',
       }));
       return false;
-    } else if (formData.password.length < 6) {
+    } else if (formData.password.length < 5) {
       setFormErrors((prevErrors) => ({
         ...prevErrors,
         password: 'Password must be exactly 6 characters long',
@@ -90,7 +90,7 @@ const Signup = () => {
     }
     return true;
   }; 
-  
+
 
   const validateConfirmPassword = () => {
     if (!formData.confirm_password) {
