@@ -90,6 +90,7 @@ const Signup = () => {
     }
     return true;
   }; 
+  
 
   const validateConfirmPassword = () => {
     if (!formData.confirm_password) {
