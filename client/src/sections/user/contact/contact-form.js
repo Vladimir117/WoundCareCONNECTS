@@ -5,6 +5,8 @@ import FormControl from '@mui/material/FormControl';
 import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import styles from 'src/style'
 
+import PhoneNumberMaskInput from 'src/components/phonenumber-mask-input';
+
 const ContactForm = () => {
   return (
     <section className="flex-col relative">
@@ -28,10 +30,18 @@ const ContactForm = () => {
                         </FormControl>
                     </div>
                     <FormControl variant="outlined" className='w-full'>
-                        <TextField id="" label="Phone" variant="outlined" className='wc-input' name="phone" type="text" />
+                        <TextField className='wc-input'
+                            InputProps={{
+                                inputComponent: PhoneNumberMaskInput,
+                            }}
+                            name="phone"
+                            variant='outlined'
+                            fullWidth
+                            label="Phone Number"
+                        />
                     </FormControl>
                     <TextField id="" label="Message" variant="outlined" className='wc-input' name="message" type="text" multiline rows='3' />
-                    <DefaultButton value='Submit' />
+                    <DefaultButton value='Submit' type="submit" />
                 </div>
             </div>
         </div>   

@@ -90,7 +90,7 @@ exports.forgotPassword = async (req, res) => {
     // Send password reset email
     await sendPasswordResetEmail(email, resetLink);
 
-    res.json({ message: 'Password reset email sent' });
+    res.json({ message: 'A password reset email has been sent. Please check your inbox.' });
   } catch (error) {
     console.error('Error sending password reset email:', error);
     res.status(500).json({ message: 'Server error' });
@@ -101,26 +101,36 @@ exports.resetPassword = async (req, res) => {
   const { token, password } = req.body;
 
   try {
-    const user = await WoundcareModel.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }
-    });
+      // Find the user by token and check if the token is still valid
+      const user = await WoundcareModel.findOne({
+          resetPasswordToken: token,
+          resetPasswordExpires: { $gt: Date.now() }
+      });
 
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid or expired token' });
-    }
+      if (!user) {
+          return res.status(400).json({ message: 'Invalid or expired token' });
+      }
 
-    // Reset password
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-    await user.save();
+      // Validate the new password (e.g., length, complexity)
+      if (!password || password.length < 6) {
+          return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+      }
 
-    res.json({ message: 'Password has been reset' });
+      // Reset the password
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+
+      // Clear the reset token and expiration
+      user.resetPasswordToken = undefined;
+      user.resetPasswordExpires = undefined;
+
+      // Save the updated user
+      await user.save();
+
+      res.json({ message: 'Password has been reset successfully' });
   } catch (error) {
-    console.error('Error resetting password:', error);
-    res.status(500).json({ message: 'Server error' });
+      console.error('Error resetting password:', error);
+      res.status(500).json({ message: 'Server error' });
   }
 };
 

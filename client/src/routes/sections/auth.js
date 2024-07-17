@@ -33,7 +33,7 @@ export const authRoutes = [
         element: LazyComponent(ForgotPassword),
     },
     {
-        path: '/reset-password/:token',
+        path: '/reset-password',
         element: LazyComponent(ResetPassword),
     },
 ];
