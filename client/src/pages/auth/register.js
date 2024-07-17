@@ -19,6 +19,8 @@ import WhiteTextField from 'src/components/white-textfield';
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   // Form state and error handling
   const [formData, setFormData] = useState({
@@ -123,13 +125,19 @@ const Signup = () => {
     if (validateForm()) {
       axios
         .post(base_url + '/api/users/register', formData)
-        .then((result) => {
-          console.log(result);
+        .then((response) => {
+          setMessage(response.data.message);
+          setError('');
+          console.log(response);
           navigate('/login');
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.error(err);
+          setError(err.response.data.error || 'An error occurred');
+        });
     }
   };
+  
 
   // Handle input changes
   const handleChange = (e) => {
@@ -238,6 +246,8 @@ const Signup = () => {
               </FormControl>
             </div>
             <DefaultButton value='Continue' type='submit' />
+            {message && <div className="text-green-500 text-center mt-1">{message}</div>}
+            {error && <div className="text-red-500 text-center mt-1">{error}</div>}
             <div className='text-[16px] text-start text-white'>
               By signing up you agree to our{' '}
               <Link className='text-white underline'>Terms of Service</Link> and{' '}
