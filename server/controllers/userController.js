@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const multer = require('multer');
 const crypto = require('crypto');
 const postmark = require('postmark');
+const path = require('path');
 
 // Models
 const WoundcareModel = require('../models/Woundcare');
@@ -136,7 +137,7 @@ exports.resetPassword = async (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../client/public/uploads'); // Set the directory where files will be stored
+    cb(null, path.join(__dirname, '../../client/public/uploads')); // Set the directory where files will be stored
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname); // Rename file if needed
