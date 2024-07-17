@@ -44,10 +44,10 @@ export const agencyNavLinks = [
   //   path: "/agency/dashboard",
   //   title: "Dashboard",
   // },
-  {
-    path: "/logout",
-    title: "Logout",
-  },
+  // {
+  //   path: "/logout",
+  //   title: "Logout",
+  // },
 ];
 
 
