@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Grid, Typography, FormControl, Button } from '@mui/material';
+import { TextField, Grid, Typography, FormControl, Button, CircularProgress } from '@mui/material';
 import axios from "axios";
 import { AuthContext } from 'src/auth/auth-provider';
 
@@ -23,6 +23,7 @@ const Main = () => {
     const { enqueueSnackbar } = useSnackbar(); // Destructure enqueueSnackbar from useSnackbar
 
     const [files, setFiles] = useState([]);
+    const [loading, setLoading] = useState(false); // Add loading state
 
     const handleDropMultiFile = useCallback(
         (acceptedFiles) => {
@@ -97,6 +98,8 @@ const Main = () => {
             return; // Stop further execution if not logged in
         }
 
+        setLoading(true); // Set loading to true before starting the submission
+
         const formDataToSend = new FormData();
 
         Object.keys(formData).forEach((key) => {
@@ -122,12 +125,10 @@ const Main = () => {
         .catch((err) => {
             console.error(err);
             enqueueSnackbar('Failed to submit form. Please try again.', { variant: 'error', anchorOrigin: { vertical: 'top', horizontal: 'right' } }); // Show error message at top-right
+        })
+        .finally(() => {
+            setLoading(false); // Set loading to false after submission is completed
         });
-    };
-
-    const handleClickVariant = (variant) => () => {
-        // variant could be success, error, warning, info, or default
-        enqueueSnackbar('This is a success message!', { variant, anchorOrigin: { vertical: 'top', horizontal: 'right' } });
     };
 
     return (
@@ -308,7 +309,24 @@ const Main = () => {
                                             />
                                         </FormControl>
                                     </div>
-                                    <DefaultButton value="Submit" type="submit" />
+                                    <Button type="submit" disabled={loading}
+                                        sx={{
+                                            width: 'auto',
+                                            height: '44px',
+                                            fontFamily: 'Manrope',
+                                            fontSize: '14px',
+                                            padding: '8px 40px',
+                                            color: '#ffffff',
+                                            borderRadius: '8px',
+                                            backgroundColor: '#00A4F4',
+                                            textTransform: 'unset',
+                                            '&:hover': {
+                                                backgroundColor: '#00A4F4',
+                                            }
+                                        }}
+                                    >
+                                        {loading ? <CircularProgress size={20} className='ml-3' sx={{color:'white'}} /> : 'Submit'} 
+                                    </Button>
                                 </div>
                             </Grid>
                         </Grid>
