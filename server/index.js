@@ -5,7 +5,6 @@ const session = require('express-session');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 
-
 const path = require('path');
 const app = express();
 
