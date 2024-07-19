@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
 import styles from 'src/style'
 import { socialMedia } from 'src/constants'
+import { AuthContext } from 'src/auth/auth-provider';
 
 // Asset
 import { logo } from 'src/assets'
@@ -11,6 +12,8 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 
 const Footer = () => {
+  const { isLoggedIn, logout, user } = useContext(AuthContext);
+
   return (
     <div className={`${styles.paddingX} ${styles.flexCenter} wc-bg-light-primary`}>
       <div className={`${styles.boxWidth}`}>
@@ -44,6 +47,17 @@ const Footer = () => {
                 </ul>
               </div>
               <div className='flex flex-col ss:my-0 my-4 min-w-[150px]'>
+                <h4 className='font-manrope font-medium text-[18px] leading-[27px] text-primary'>Services</h4>
+                <ul className='list-none mt-4 flex flex-col gap-[12px]'>
+                  <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
+                    <Link to='/register'>Booking appointments</Link>
+                  </li>
+                  <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
+                    <Link to={isLoggedIn ? '/patient-submission' : '/login'}>Patient Submission</Link>
+                  </li>
+                </ul>
+              </div>
+              <div className='flex flex-col ss:my-0 my-4 min-w-[150px]'>
                 <h4 className='font-manrope font-medium text-[18px] leading-[27px] text-primary'>Contact Us</h4>
                 <ul className='list-none mt-4 flex flex-col gap-[12px]'>
                   <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
@@ -51,17 +65,6 @@ const Footer = () => {
                   </li>
                   <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
                     <Link to='mailto:info@woundcareconnects.com'><EmailIcon className='text-[14px] mr-2' />info@woundcareconnects.com</Link>
-                  </li>
-                </ul>
-              </div>
-              <div className='flex flex-col ss:my-0 my-4 min-w-[150px]'>
-                <h4 className='font-manrope font-medium text-[18px] leading-[27px] text-primary'>Services</h4>
-                <ul className='list-none mt-4 flex flex-col gap-[12px]'>
-                  <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
-                    <Link to='/register'>Booking appointments</Link>
-                  </li>
-                  <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
-                    <Link to='/patient-submission'>Patient Submission</Link>
                   </li>
                 </ul>
               </div>

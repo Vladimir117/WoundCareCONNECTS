@@ -48,7 +48,8 @@ const Signin = () => {
       const { data } = response;
   
       if (data.token) {
-        login(data.token, true); // Assuming your login function sets the token in the state or context
+        // Call login function with the token and user data
+        login(data.token, true, data.user); // Pass user data along with token
       }
   
       // Redirect to the URL provided by the backend

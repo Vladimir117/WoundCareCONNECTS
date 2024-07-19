@@ -1,56 +1,59 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { base_url } from 'src/constants';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
-  const [user, setUser] = useState(null); // Add user state
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem('authToken');
     if (storedToken) {
       setToken(storedToken);
       setIsLoggedIn(true);
-      // Fetch user info based on the token (example implementation)
       fetchUserInfo(storedToken);
     }
   }, []);
 
+  console.log(user);
+
   const fetchUserInfo = async (token) => {
     try {
-      // Example API call to fetch user info based on token
       const response = await fetch(`${base_url}/api/auth`, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`, // Send the token in the Authorization header
+          'Content-Type': 'application/json' // Ensure JSON content type if needed
         }
       });
+      
       if (response.ok) {
         const userData = await response.json();
-        setUser(userData); // Set user state with fetched data
+        setUser(userData); // Set user data in state
       } else {
-        // Handle error if needed
-        console.error('Failed to fetch user info');
+        console.error('Failed to fetch user info:', response.statusText);
       }
     } catch (error) {
       console.error('Error fetching user info:', error);
     }
   };
+  
 
-  const login = (newToken, remember) => {
+  const login = (newToken, remember, userData) => {
     if (remember) {
       localStorage.setItem('authToken', newToken);
     }
     setToken(newToken);
     setIsLoggedIn(true);
-    fetchUserInfo(newToken); // Fetch user info after login
+    setUser(userData); // Store user data
   };
 
   const logout = () => {
     localStorage.removeItem('authToken');
     setToken(null);
     setIsLoggedIn(false);
-    setUser(null); // Clear user info on logout
+    setUser(null);
   };
 
   return (

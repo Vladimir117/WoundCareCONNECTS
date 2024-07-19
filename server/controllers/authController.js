@@ -7,28 +7,32 @@ const UserModel = require('../models/User');
 
 // Utils
 const sendPasswordResetEmail = require('../utils/email');
+const generateToken = require('../utils/generateToken');
+
 
 // Constants
 const AGENCY_DASHBOARD_URL = process.env.AGENCY_URL || '/agency';
 
-exports.register = async (req, res) => {
-  const { name, email, password } = req.body;
+// Endpoint to fetch user info
+exports.auth = async (req, res) => {
   try {
-    const sanitizedEmail = sanitizeHtml(email);
-    const sanitizedPassword = sanitizeHtml(password);
-
-    const existingUser = await UserModel.findOne({ email: sanitizedEmail });
-    if (existingUser) {
-      return res.status(400).json({ error: "Email already exists" });
+    // Extract user ID from the request object, assuming it's added by the middleware
+    const userId = req.user.id; 
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID not found in request' });
     }
 
-    const hashedPassword = await bcrypt.hash(sanitizedPassword, 10);
-    const newUser = new UserModel({ name, email: sanitizedEmail, password: hashedPassword });
-    await newUser.save();
-    return res.status(201).json(newUser);
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Failed to register user" });
+    // Fetch user from database, excluding password field
+    const user = await UserModel.findById(userId).select('-password'); 
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.json(user); // Return user data
+  } catch (error) {
+    console.error('Error fetching user info:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
@@ -49,19 +53,45 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: "Invalid password" });
     }
 
-    req.session.userId = user._id;
+    // Generate a JWT token
+    const token = generateToken(user);
 
-    // Determine the redirect URL based on the user's role
-    const redirectUrl = user.role === 'agency' ? AGENCY_DASHBOARD_URL : '/';
-
+    // Send the user info and token in the response
     return res.json({ 
       message: "Login successful!", 
-      token: 'your-generated-jwt-token', // Generate and return JWT token or any other auth token
-      redirectUrl 
+      token, 
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role // Add any other user information you want to include
+      },
+      redirectUrl: user.role === 'agency' ? AGENCY_DASHBOARD_URL : '/'
     });
   } catch (err) {
     console.error("Login error:", err);
     return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+exports.register = async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const sanitizedEmail = sanitizeHtml(email);
+    const sanitizedPassword = sanitizeHtml(password);
+
+    const existingUser = await UserModel.findOne({ email: sanitizedEmail });
+    if (existingUser) {
+      return res.status(400).json({ error: "Email already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(sanitizedPassword, 10);
+    const newUser = new UserModel({ name, email: sanitizedEmail, password: hashedPassword });
+    await newUser.save();
+    return res.status(201).json(newUser);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Failed to register user" });
   }
 };
 

@@ -44,6 +44,8 @@ const Header = () => {
     logout();
   };
 
+  console.log(user);
+
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
@@ -56,6 +58,16 @@ const Header = () => {
             </Link>
           </ListItem>
         ))}
+        {/* Conditionally render Agency Dashboard link */}
+        {isLoggedIn && user?.role === 'agency' && (
+          <ListItem key="agency-dashboard" disablePadding>
+            <Link to="/agency" className='w-full'>
+              <ListItemButton>
+                <ListItemText primary="Agency Dashboard" />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        )}
       </List>
       <Divider />
       <List>
@@ -96,6 +108,11 @@ const Header = () => {
                   >{nav.title}</Link>
                 </li>
               ))}
+              {isLoggedIn && user?.role === 'agency' && (
+                <li className="font-manrope font-normal hover:text-primary cursor-pointer text-[16px]">
+                  <Link to="/agency" className={setNavItemActive('agency')}>Agency Dashboard</Link>
+                </li>
+              )}
             </ul>
             {isLoggedIn ? (
               <div className="flex items-center">
