@@ -1,12 +1,9 @@
-// src/components/RoleBasedProtectedRoute.js
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from 'src/auth/auth-provider';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const { isLoggedIn, user } = useContext(AuthContext);
-
-  console.log(user);
 
   if (!isLoggedIn) {
     return <Navigate to="/login" />;
