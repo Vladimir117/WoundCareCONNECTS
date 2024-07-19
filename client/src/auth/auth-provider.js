@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import axios from 'axios';
 import { base_url } from 'src/constants';
 
 export const AuthContext = createContext();
@@ -17,20 +18,16 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  console.log(user);
-
   const fetchUserInfo = async (token) => {
     try {
-      const response = await fetch(`${base_url}/api/auth`, {
+      const response = await axios.get(`${base_url}/api/auth/check`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Send the token in the Authorization header
-          'Content-Type': 'application/json' // Ensure JSON content type if needed
+          Authorization: `Bearer ${token}`,
         }
       });
-      
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData); // Set user data in state
+
+      if (response.status === 200) {
+        setUser(response.data); // Set user data in state
       } else {
         console.error('Failed to fetch user info:', response.statusText);
       }
@@ -38,7 +35,6 @@ export const AuthProvider = ({ children }) => {
       console.error('Error fetching user info:', error);
     }
   };
-  
 
   const login = (newToken, remember, userData) => {
     if (remember) {

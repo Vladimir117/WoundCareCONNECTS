@@ -12,8 +12,8 @@ import AgencyLayout from 'src/layouts/agency';
 const Dashboard = lazy(() => import('src/pages/agency'));
 const PatientDetails = lazy(() => import('src/pages/agency/patient-details'));
 
-const LazyComponent = (Component) => (
-  <ProtectedRoute>
+const LazyComponent = (Component, requiredRole) => (
+  <ProtectedRoute requiredRole={requiredRole}>
     <Suspense fallback={<SplashScreen />}>
       <AgencyLayout>
         <Component />
@@ -29,11 +29,11 @@ export const agencyRoutes = [
       { element: <Navigate to="/agency/dashboard" />, index: true },
       {
         path: 'dashboard',
-        element: LazyComponent(Dashboard),
+        element: LazyComponent(Dashboard, 'agency'),
       },
       {
         path: 'patient-details/:id',
-        element: LazyComponent(PatientDetails),
+        element: LazyComponent(PatientDetails, 'agency'),
       },
     ],
   },
