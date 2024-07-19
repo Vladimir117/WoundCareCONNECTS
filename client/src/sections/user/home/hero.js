@@ -1,10 +1,14 @@
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom'
 import styles from 'src/style'
+import { AuthContext } from 'src/auth/auth-provider';
 
 // Components
 import DefaultButton from 'src/components/button/default-button'
 
 const Hero = () => {
+  const { isLoggedIn, logout, user } = useContext(AuthContext);
+
   return (
     <section id='home' className={`flex md:flex-row flex-col`}>
       <div className={`flex-1 ${styles.flexStart} flex-col relative`}>
@@ -21,11 +25,13 @@ const Hero = () => {
                 <p className={`${styles.paragraph} max-w-[470px] mt-5 text-white`}>
                   Connecting Home Health Companies and patients with Accessible Physician Care for Wound Treatments and comprehensive wound care services tailored to the unique needs of our patients.
                 </p>
-                <div>
-                  <Link to="/login">
-                    <DefaultButton value="Get Started"/>
-                  </Link>
-                </div>
+                {!isLoggedIn && (
+                  <div>
+                    <Link to="/login">
+                      <DefaultButton value="Get Started"/>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>

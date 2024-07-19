@@ -29,7 +29,7 @@ const SubmissionSchema = new mongoose.Schema({
   secondary_member: String,
   wound_information: String,
   wound_size: String,
-  status: String,
+  status: { type: String, enum: ['Accepted', 'Denied', 'Seen'], default: 'Accepted' },
   attachments: [AttachmentSchema] 
 }, {
   timestamps: true

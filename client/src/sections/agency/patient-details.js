@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import { TextField, Grid, Typography, FormControl, IconButton, CircularProgress } from '@mui/material';
+import { TextField, Grid, Typography, FormControl, IconButton, CircularProgress, Button } from '@mui/material';
 
 // Components
 import FileThumbnail from 'src/components/file-thumbnail/file-thumbnail';
+import ExportToExcel from 'src/components/export-excel';
 
 // Icons
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { base_url } from 'src/constants';
+import DefaultButton from 'src/components/button/default-button';
 
 const PatientDetails = () => {
     const { id } = useParams(); // Get the id from the URL
@@ -68,14 +70,48 @@ const PatientDetails = () => {
         return <Typography color="error">{error}</Typography>;
     }
 
+    // Export excel file
+    const handleExportClick = () => {
+        // Collect data to export
+        const data = [
+            {
+                "Agency Address": formValues.agency_address || '',
+                "Agency Phone Number": formValues.agency_phone || '',
+                "Agency Email": formValues.agency_email || '',
+                "Home Health Agency Contact Name": formValues.h_agency_name || '',
+                "Home Health Agency Contact Phone": formValues.h_agency_phone || '',
+                "Home Health Agency Contact Email": formValues.h_agency_email || '',
+                "Home Health Agency Position": formValues.h_agency_position || '',
+                "Referred By": formValues.h_agency_referred || '',
+                "Patient Name": formValues.patient_name || '',
+                "Patient Address": formValues.patient_address || '',
+                "Patient Phone Number": formValues.patient_phone || '',
+                "Patient Birthday": formValues.patient_birth || '',
+                "Emergency Contact Name": formValues.emergency_name || '',
+                "Emergency Contact Address": formValues.emergency_address || '',
+                "Emergency Contact Phone": formValues.emergency_phone || '',
+                "Emergency Contact Relationship": formValues.emergency_relationship || '',
+                "Primary Insurance": formValues.primary_insurance || '',
+                "Primary Insurance Member Number": formValues.primary_member || '',
+                "Secondary Insurance": formValues.secondary_insurance || '',
+                "Secondary Insurance Member Number": formValues.secondary_member || '',
+                "Wound Information": formValues.wound_information || '',
+                "Wound Size": formValues.wound_size || '',
+            }
+        ];
+        
+        // Call the function to export data to Excel with patient's name for filename
+        ExportToExcel(data, formValues.patient_name || 'Patient');
+    };
+
     return (
         <div className="w-full flex flex-col gap-[48px]">
-            <div className="flex justify-between items-center">
+            <div className="flex flex sm:justify-between items-center gap-[14px]">
                 <Link to="/agency" className="text-[26px]">
                     <IconButton><KeyboardBackspaceIcon className="text-[30px] text-black mb-[2px]" /></IconButton>
                 </Link>
-                <Typography variant="h4" className="text-center text-primary">Patient Information</Typography>
-                <div></div>
+                <Typography className="text-center text-primary !text-[22px] sm:!text-[32px]">Patient Information</Typography>
+                <DefaultButton value="Export CSV" onClick={handleExportClick} />
             </div>
             <Grid container spacing={3}>
                 <Grid item md={4.5} sm={12} xs={12}>

@@ -18,7 +18,6 @@ const DefaultButton = ({ value, size, bg, color, weight, height, click, btnStatu
           backgroundColor: '#00A4F4',
         }
       }}
-      onClick={click}
       disabled={btnStatus}
     >
       {value}

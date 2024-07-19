@@ -120,61 +120,6 @@ DataTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-function DataTableToolbar(props) {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          sx={{ flex: '1 1 100%' }}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          Patient Submissions
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-}
-
-DataTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
 const STATUS = [
   { value: 'Accepted', label: 'Accepted' },
   { value: 'Denied', label: 'Denied' },
@@ -196,7 +141,7 @@ export default function DataTable() {
     const fetchData = async () => {
       try {
         const response = await axios.get(base_url + '/api/agency/submission-list');
-        const dataWithIndex = response.data.map((row, index) => ({ ...row, no: index + 1 }));
+        const dataWithIndex = response.data.map((row, index) => ({ ...row, no: index + 1, status: row.status || 'Accepted' }));
         setRows(dataWithIndex);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -249,10 +194,6 @@ export default function DataTable() {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows =
@@ -268,10 +209,28 @@ export default function DataTable() {
   );
 
   // Category Sortby
-  const [sortBy, setSortBy] = useState('Accepted');
+  // const handleStatus = useCallback((id, newValue) => {
+  //   setRows((prevRows) =>
+  //     prevRows.map((row) =>
+  //       row._id === id ? { ...row, status: newValue } : row
+  //     )
+  //   );
+  // }, []);
 
-  const handleSortBy = useCallback((newValue) => {
-      setSortBy(newValue);
+  const handleStatus = useCallback(async (id, newValue) => {
+    try {
+      // Make an API call to update the status in the database
+      await axios.patch(`${base_url}/api/agency/submission/${id}`, { status: newValue });
+
+      // Update the status locally
+      setRows((prevRows) =>
+      prevRows.map((row) =>
+        row._id === id ? { ...row, status: newValue } : row
+      )
+    );
+    } catch (error) {
+      console.error('Error updating status:', error);
+    }
   }, []);
 
   return (
@@ -300,23 +259,12 @@ export default function DataTable() {
                   <TableRow
                     hover
                     onClick={(event) => handleClick(event, row._id)}
-                    // role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row._id}
                     selected={isItemSelected}
                     sx={{ cursor: 'pointer' }}
                   >
-                    {/* <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                      />
-                    </TableCell> */}
-                    {/* <TableCell component="th" id={labelId} scope="row">
-                      {row.no}
-                    </TableCell> */}
                     <TableCell align="left">{row.no}</TableCell>
                     <TableCell align="left">{row.patient_name}</TableCell>
                     <TableCell align="left">{row.patient_address}</TableCell>
@@ -324,7 +272,11 @@ export default function DataTable() {
                       {new Date(row.createdAt).toISOString().split('T')[0]}
                     </TableCell>
                     <TableCell align="left" sx={{paddingLeft: '10px'}}>
-                      <DropdownMenu sort={sortBy} onSort={handleSortBy} sortOptions={STATUS} />
+                      <DropdownMenu
+                        sort={row.status}
+                        onSort={(newValue) => handleStatus(row._id, newValue)}
+                        sortOptions={STATUS}
+                      />
                     </TableCell>
                     <TableCell align="left">
                       <div className="flex gap-[15px] items-center">
