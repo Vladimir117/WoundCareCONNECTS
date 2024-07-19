@@ -2,6 +2,8 @@ import React from 'react'
 import Header from './header'
 import Sidebar from './sidebar'
 
+import FloatingActionButtons from 'src/components/floating-action-button'
+
 export default function CustomAccountLayout({ children }) {
 
   return (
@@ -9,6 +11,7 @@ export default function CustomAccountLayout({ children }) {
         <Header />
         <Sidebar>
           {children}
+          <FloatingActionButtons />
         </Sidebar>
     </div>
   )
