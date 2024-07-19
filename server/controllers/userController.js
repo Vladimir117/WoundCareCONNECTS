@@ -10,7 +10,7 @@ const sendContactUsEmail = require('../utils/sendContactUsEmail');
 const storage = multer.diskStorage({
 
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../client/public/uploads')); // Set the directory where files will be stored
+    cb(null, path.join(__dirname, '../../client/dist/uploads')); // Set the directory where files will be stored
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname); // Rename file if needed
