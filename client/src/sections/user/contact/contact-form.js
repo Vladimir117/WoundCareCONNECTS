@@ -32,7 +32,7 @@ const ContactForm = () => {
         setLoading(true);
     
         try {
-            const response = await fetch(`${base_url}/api/users/contact`, {
+            const response = await fetch(`${base_url}/api/user/contact`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

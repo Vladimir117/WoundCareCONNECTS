@@ -44,7 +44,7 @@ const PatientDetails = () => {
     useEffect(() => {
         const fetchPatientDetails = async () => {
             try {
-                const response = await axios.get(`${base_url}/api/users/submission-detail/${id}`);
+                const response = await axios.get(`${base_url}/api/agency/submission-detail/${id}`);
                 setFormValues(response.data);
                 if (response.data.attachments) {
                     setAttachments(response.data.attachments);

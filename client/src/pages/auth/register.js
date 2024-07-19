@@ -124,7 +124,7 @@ const Signup = () => {
     e.preventDefault();
     if (validateForm()) {
       axios
-        .post(base_url + '/api/users/register', formData)
+        .post(base_url + '/api/auth/register', formData)
         .then((response) => {
           setMessage(response.data.message);
           setError('');

@@ -109,7 +109,7 @@ const Main = () => {
             formDataToSend.append('attachments', file);
         });
 
-        axios.post(base_url + "/api/users/submission", formDataToSend, {
+        axios.post(base_url + "/api/user/submission", formDataToSend, {
             headers: {
                 'Content-Type': 'multipart/form-data',
             }

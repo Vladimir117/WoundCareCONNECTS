@@ -37,7 +37,7 @@ const DataTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(base_url + '/api/users/submission-list');
+        const response = await axios.get(base_url + '/api/agency/submission-list');
         const dataWithIndex = response.data.map((row, index) => ({ ...row, no: index + 1 }));
         setRows(dataWithIndex);
       } catch (error) {

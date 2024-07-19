@@ -105,7 +105,7 @@ const Header = () => {
             <Grid container alignItems={"center"} justifyContent={"space-between"}>
               <Grid item xs={6} lg={3} md={3}>
                 <Box sx={{ width: "200px" }}>
-                  <Link to="/agency" smooth={'true'} duration={500} offset={-70} style={{display: "flex", alignItems: "center", gap: '1rem', cursor: "pointer"}}>
+                  <Link to="/" smooth={'true'} duration={500} offset={-70} style={{display: "flex", alignItems: "center", gap: '1rem', cursor: "pointer"}}>
                     <StyledImage src={logo} alt="Logo" className="" />
                   </Link>
                 </Box>
@@ -120,6 +120,24 @@ const Header = () => {
                     gap: "48px",
                   }}
                 >
+                  {agencyNavLinks.map((link) => (
+                    <ScrollLink
+                      className="font-gilroy"
+                      key={link.title}
+                      to={link.href}
+                      smooth={'true'}
+                      duration={500}
+                      offset={-70} // Adjust the offset to accommodate your fixed header height
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "400",
+                        color: "rgb(103 101 101)",
+                        cursor: "pointer"
+                      }}
+                    >
+                      {link.title}
+                    </ScrollLink>
+                  ))}
                   <div className="flex gap-[12px]">
                     <div className="text-end">
                       {/* <h6 className="text-heading text-[14px] font-normal leadig-[24px]">Home Health Agency</h6>

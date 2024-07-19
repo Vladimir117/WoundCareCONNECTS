@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
-const WoundcareSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
@@ -18,6 +18,11 @@ const WoundcareSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    role: {
+        type: String,
+        enum: ['user', 'agency'], // Define valid roles here
+        default: 'user', // Default role
+    },
     resetPasswordToken: {
         type: String,
         default: null,
@@ -30,5 +35,5 @@ const WoundcareSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-const WoundcareModel = mongoose.model("User", WoundcareSchema);
-module.exports = WoundcareModel;
+const UserModel = mongoose.model("User", UserSchema);
+module.exports = UserModel;

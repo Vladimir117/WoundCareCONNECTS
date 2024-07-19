@@ -1,14 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import styles from 'src/style'
+import { socialMedia } from 'src/constants'
+
+// Asset
 import { logo } from 'src/assets'
-import { footerLinks, socialMedia } from 'src/constants'
 
 // Icons
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 
 const Footer = () => {
   return (
@@ -59,6 +59,9 @@ const Footer = () => {
                 <ul className='list-none mt-4 flex flex-col gap-[12px]'>
                   <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
                     <Link to='/register'>Booking appointments</Link>
+                  </li>
+                  <li className='font-manrope font-normal text-[16px] leading-[24px] text-gray-700 hover:text-primary cursor-pointer'>
+                    <Link to='/patient-submission'>Patient Submission</Link>
                   </li>
                 </ul>
               </div>

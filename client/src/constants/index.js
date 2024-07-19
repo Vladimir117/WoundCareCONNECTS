@@ -4,8 +4,8 @@ import {
   linkedin,
 } from "src/assets";
 
-export const base_url = "https://woundcareconnects.com";
-// export const base_url = "http://localhost:3003";
+// export const base_url = "https://woundcareconnects.com";
+export const base_url = "http://localhost:3003";
 
 // Navbar
 export const navLinks = [
@@ -33,10 +33,10 @@ export const navLinks = [
     id: "contact",
     title: "Contact Us",
   },
-  {
-    id: "patient-submission",
-    title: "Submission",
-  },
+  // {
+  //   id: "patient-submission",
+  //   title: "Submission",
+  // },
 ];
 
 export const agencyNavLinks = [
@@ -49,8 +49,6 @@ export const agencyNavLinks = [
   //   title: "Logout",
   // },
 ];
-
-
 
 // Home Page
 export const woundCareManagement = [
@@ -340,7 +338,6 @@ export const woundTypes = [
 ];
 
 // About Us
-
 export const ourTeam = [
   {
     id: "ourTeam-1",
@@ -406,63 +403,18 @@ export const ourSupport = [
   },
 ];
 
-export const footerLinks = [
-  {
-    title: "Support",
-    links: [
-      {
-        name: "Getting Started",
-        path: "/login",
-      },
-      {
-        name: "FAQs",
-        path: "/faqs",
-      },
-      {
-        name: "Report an issue",
-        path: "/contact",
-      },
-    ],
-  },
-  {
-    title: "Let's Connect",
-    links: [
-      {
-        name: "Getting Started",
-        path: "/login",
-      },
-      {
-        name: "FAQs",
-        path: "/faqs",
-      },
-      {
-        name: "Report an issue",
-        path: "/contact",
-      },
-    ],
-  },
-  {
-    title: "Services",
-    links: [
-      {
-        name: "Booking appointments",
-        path: "/register",
-      },
-    ],
-  },
-];
-
 export const socialMedia = [
+  // {
+  //   id: "social-media-1",
+  //   icon: facebook,
+  //   path: "https://www.facebook.com/",
+  // },
+  // {
+  //   id: "social-media-2",
+  //   icon: instagram,
+  //   path: "https://www.instagram.com/",
+  // }, 
   {
-    id: "social-media-1",
-    icon: facebook,
-    path: "https://www.facebook.com/",
-  },
-  {
-    id: "social-media-2",
-    icon: instagram,
-    path: "https://www.instagram.com/",
-  },  {
     id: "social-media-3",
     icon: linkedin,
     path: "https://www.linkedin.com/",

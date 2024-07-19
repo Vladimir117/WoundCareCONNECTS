@@ -1,11 +1,12 @@
 require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const connectDB = require('./config/db');
-const userRoutes = require('./routes/userRoutes');
-
+const routes = require('./routes/index');
 const path = require('path');
+
 const app = express();
 
 // Serve static files from the 'uploads' directory
@@ -15,9 +16,11 @@ app.use(express.json());
 app.use(cors());
 app.use(session({ secret: 'your-secret-key', resave: false, saveUninitialized: false }));
 
+// Connect to database
 connectDB();
 
-app.use('/api/users', userRoutes);
+// Use routes
+app.use('/api', routes);
 
 app.listen(3003, () => {
   console.log("Server is running on port 3003");

@@ -14,7 +14,7 @@ import DefaultButton from 'src/components/button/default-button';
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [toggle, setToggle] = useState(false);
-  const { isLoggedIn, logout } = useContext(AuthContext);
+  const { isLoggedIn, logout, user } = useContext(AuthContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,7 +98,9 @@ const Header = () => {
               ))}
             </ul>
             {isLoggedIn ? (
-              <Button onClick={handleLogout} className='!hidden lg:!block' variant="outlined">Sign Out</Button>
+              <div className="flex items-center">
+                <Button onClick={handleLogout} className='!hidden lg:!block' variant="outlined">Sign Out</Button>
+              </div>
             ) : (
               <Link to="/login" className='hidden lg:!block'>
                 <DefaultButton value='Sign In' />

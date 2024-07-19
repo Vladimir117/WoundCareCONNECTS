@@ -1,5 +1,3 @@
-// src/pages/signin.js
-
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { base_url } from 'src/constants';
@@ -46,10 +44,15 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(base_url + "/api/users/login", formData);
+      const response = await axios.post(base_url + "/api/auth/login", formData);
       const { data } = response;
-      login(data.token, true); // Assuming your API returns a token upon successful login
-      navigate(data.redirectUrl || "/"); // Navigate to the specified redirectUrl or default route
+  
+      if (data.token) {
+        login(data.token, true); // Assuming your login function sets the token in the state or context
+      }
+  
+      // Redirect to the URL provided by the backend
+      navigate(data.redirectUrl || "/");
     } catch (err) {
       if (err.response && err.response.status === 401) {
         setError("Invalid email or password. Please try again.");
@@ -57,7 +60,7 @@ const Signin = () => {
         setError("An unexpected error occurred. Please try again later.");
       }
     }
-  };
+  };  
 
   return (
     <div className='flex flex-col w-full max-w-[520px] gap-[48px] px-[15px] py-[48px] sm:px-[48px] sm:py-[48px] flex rounded-[18px] shadow-custom backdrop-blur-lg z-10 box-decoration-slice'>
