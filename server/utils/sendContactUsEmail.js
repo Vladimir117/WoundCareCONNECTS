@@ -10,8 +10,7 @@ const sendContactUsEmail = async (name, email, phone, message) => {
     // Send email using Postmark client
     await client.sendEmail({
       From: process.env.POSTMARK_FROM_EMAIL,
-      To: 'mostspace1027@gmail.com', 
-      // To: 'ana@woundcareconnects.com', 
+      To: 'ana@woundcareconnects.com', 
       Subject: 'New Contact Form Submission',
       HtmlBody: `
         <p><strong>Name:</strong> ${name}</p>

@@ -59,6 +59,16 @@ const Header = () => {
           </ListItem>
         ))}
         {/* Conditionally render Agency Dashboard link */}
+        {isLoggedIn && (
+          <ListItem key="patient-submission" disablePadding>
+            <Link to="/patient-submission" className='w-full'>
+              <ListItemButton>
+                <ListItemText primary="Patient Submission" />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        )}
+        {/* Conditionally render Agency Dashboard link */}
         {isLoggedIn && user?.role === 'agency' && (
           <ListItem key="agency-dashboard" disablePadding>
             <Link to="/agency" className='w-full'>
@@ -108,6 +118,11 @@ const Header = () => {
                   >{nav.title}</Link>
                 </li>
               ))}
+              {isLoggedIn && (
+                <li className="font-manrope font-normal hover:text-primary cursor-pointer text-[16px] mr-10">
+                  <Link to="/patient-submission" className={setNavItemActive('agency')}>Patient Submission</Link>
+                </li>
+              )}
               {isLoggedIn && user?.role === 'agency' && (
                 <li className="font-manrope font-normal hover:text-primary cursor-pointer text-[16px]">
                   <Link to="/agency" className={setNavItemActive('agency')}>Agency Dashboard</Link>
