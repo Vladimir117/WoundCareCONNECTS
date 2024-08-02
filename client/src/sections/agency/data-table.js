@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -24,6 +25,11 @@ import { visuallyHidden } from '@mui/utils';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { base_url } from 'src/constants';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import DropdownMenu from 'src/components/dropdown-menu';
 
@@ -67,7 +73,7 @@ const headCells = [
 ];
 
 function DataTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } =
+  const { order, orderBy, numSelected, rowCount, onRequestSort } =
     props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -105,7 +111,6 @@ function DataTableHead(props) {
 DataTableHead.propTypes = {
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -195,6 +200,31 @@ export default function DataTable() {
     }
   }, []);
 
+  const deleteSubmission = async (id) => {
+    try {
+      // Make an API call to delete the submission
+      await axios.delete(`${base_url}/api/agency/submission/${id}`);
+  
+      // Update the state to remove the deleted row
+      setRows((prevRows) => prevRows.filter((row) => row._id !== id));
+      
+      console.log('Submission deleted successfully');
+    } catch (error) {
+      console.error('Error deleting submission:', error);
+    }
+  };
+
+  // Delete Confirm Dialog
+  const [openDeleteSubmission, setOpenDeleteSubmission] = React.useState(false);
+
+  const handleClickOpenDeleteSubmission = () => {
+    setOpenDeleteSubmission(true);
+  };
+
+  const handleCloseDeleteSubmission = () => {
+    setOpenDeleteSubmission(false);
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -241,6 +271,37 @@ export default function DataTable() {
                         <Link to={`/agency/patient-details/${row._id}`} className="text-primary hover:underline">
                           View
                         </Link>
+                        <Typography className='text-primary'>/</Typography>
+                        <Link
+                          className="text-primary hover:underline"
+                          onClick={() => handleClickOpenDeleteSubmission()}
+                        >
+                          Delete
+                        </Link>
+
+                        <React.Fragment>
+                          <Dialog
+                            open={openDeleteSubmission}
+                            onClose={handleCloseDeleteSubmission}
+                            aria-labelledby="alert-dialog-title"
+                            aria-describedby="alert-dialog-description"
+                          >
+                            <DialogTitle id="alert-dialog-title">
+                              {"Are you sure you want to delete this submission?"}
+                            </DialogTitle>
+                            {/* <DialogContent>
+                              <DialogContentText id="alert-dialog-description">
+                                Are you sure you want to delete this submission?
+                              </DialogContentText>
+                            </DialogContent> */}
+                            <DialogActions>
+                              <Button onClick={handleCloseDeleteSubmission}>Cancel</Button>
+                              <Button onClick={() => deleteSubmission(row._id)} autoFocus sx={{color: 'red'}}>
+                                Delete
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </React.Fragment>
                       </div>
                     </TableCell>
                   </TableRow>
@@ -264,6 +325,31 @@ export default function DataTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
+
+      {/* <React.Fragment>
+        <Dialog
+          open={openDeleteSubmission}
+          onClose={handleCloseDeleteSubmission}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Use Google's location service?"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Let Google help apps determine location. This means sending anonymous
+              location data to Google, even when no apps are running.
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseDeleteSubmission}>Disagree</Button>
+            <Button onClick={handleCloseDeleteSubmission} autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </React.Fragment> */}
     </Box>
   );
 }

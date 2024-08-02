@@ -6,5 +6,6 @@ const agencyController = require('../controllers/agencyController');
 router.get('/submission-list', agencyController.submissionList);
 router.get('/submission-detail/:id', agencyController.submissionDetail);
 router.patch('/submission/:id', agencyController.updateSubmissionStatus);
+router.delete('/submission/:id', agencyController.deleteSubmission);
 
 module.exports = router;

@@ -6,6 +6,7 @@ const SubmissionModel = require('../models/Submission');
 
 // Utils
 const sendContactUsEmail = require('../utils/sendContactUsEmail');
+const sendSubmissionMailToAdmin = require('../utils/sendSubmissionEmailToAdmin');
 
 const storage = multer.diskStorage({
 
@@ -44,6 +45,10 @@ exports.submission = [
       const savedSubmission = await newSubmission.save();
 
       res.status(201).json({ message: 'Submission received successfully', data: savedSubmission });
+
+      // Send mail to admin after submission
+      await sendSubmissionMailToAdmin(patient_name);
+
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: 'Failed to save submission' });

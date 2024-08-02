@@ -54,3 +54,23 @@ exports.updateSubmissionStatus = async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 };
+
+exports.deleteSubmission = async (req, res) => {
+  try {
+    const { id } = req.params; // Extract id from request parameters
+
+    // Find the submission by id and delete it
+    const deletedSubmission = await SubmissionModel.findByIdAndDelete(id);
+
+    if (!deletedSubmission) {
+      // If no submission is found, send a 404 response
+      return res.status(404).json({ error: 'Submission not found' });
+    }
+
+    // Send a success response with a message or the deleted submission
+    res.status(200).json({ message: 'Submission deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting submission:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
