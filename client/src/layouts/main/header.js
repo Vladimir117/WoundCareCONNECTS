@@ -63,7 +63,7 @@ const Header = () => {
           <ListItem key="patient-submission" disablePadding>
             <Link to="/patient-submission" className='w-full'>
               <ListItemButton>
-                <ListItemText primary="Patient Submission" />
+                <ListItemText primary="Submission" />
               </ListItemButton>
             </Link>
           </ListItem>
@@ -73,7 +73,7 @@ const Header = () => {
           <ListItem key="agency-dashboard" disablePadding>
             <Link to="/agency" className='w-full'>
               <ListItemButton>
-                <ListItemText primary="Agency Dashboard" />
+                <ListItemText primary="Agency" />
               </ListItemButton>
             </Link>
           </ListItem>
@@ -120,12 +120,12 @@ const Header = () => {
               ))}
               {isLoggedIn && (
                 <li className="font-manrope font-normal hover:text-primary cursor-pointer text-[16px] mr-10">
-                  <Link to="/patient-submission" className={setNavItemActive('agency')}>Patient Submission</Link>
+                  <Link to="/patient-submission" className={setNavItemActive('agency')}>Submission</Link>
                 </li>
               )}
               {isLoggedIn && user?.role === 'agency' && (
                 <li className="font-manrope font-normal hover:text-primary cursor-pointer text-[16px]">
-                  <Link to="/agency" className={setNavItemActive('agency')}>Agency Dashboard</Link>
+                  <Link to="/agency" className={setNavItemActive('agency')}>Agency</Link>
                 </li>
               )}
             </ul>

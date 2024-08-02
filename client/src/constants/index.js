@@ -1,11 +1,9 @@
 import {
-  facebook, 
-  instagram, 
   linkedin,
 } from "src/assets";
 
 export const base_url = "https://woundcareconnects.com";
-// export const base_url = "http://localhost:3003";
+// export const base_url = "http://localhost:4003";
 
 // Navbar
 export const navLinks = [
