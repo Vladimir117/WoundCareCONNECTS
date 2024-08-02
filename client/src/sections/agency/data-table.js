@@ -209,6 +209,7 @@ export default function DataTable() {
       setRows((prevRows) => prevRows.filter((row) => row._id !== id));
       
       console.log('Submission deleted successfully');
+      handleCloseDeleteSubmission();
     } catch (error) {
       console.error('Error deleting submission:', error);
     }
@@ -325,31 +326,6 @@ export default function DataTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-
-      {/* <React.Fragment>
-        <Dialog
-          open={openDeleteSubmission}
-          onClose={handleCloseDeleteSubmission}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {"Use Google's location service?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Let Google help apps determine location. This means sending anonymous
-              location data to Google, even when no apps are running.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDeleteSubmission}>Disagree</Button>
-            <Button onClick={handleCloseDeleteSubmission} autoFocus>
-              Agree
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </React.Fragment> */}
     </Box>
   );
 }
